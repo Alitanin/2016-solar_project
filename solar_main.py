@@ -1,6 +1,6 @@
 # coding: utf-8
 # license: GPLv3
-
+print('мяу')
 import tkinter
 from tkinter.filedialog import *
 from solar_vis import *
