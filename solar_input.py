@@ -69,6 +69,15 @@ def parse_planet_parameters(line, planet):
     **line** — строка с описание планеты.
     **planet** — объект планеты.
     """
+    Type, r, color, m, x, y, Vx, Vy = map(str, line.split())
+    planet.type = Type
+    planet.R = r
+    planet.color = color
+    planet.m = m
+    planet.x = x
+    planet.y = y
+    planet.Vx = Vx
+    planet.Vy = Vy
     pass  # FIXME: not done yet...
 
 
