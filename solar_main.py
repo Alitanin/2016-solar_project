@@ -1,7 +1,9 @@
 # coding: utf-8
 # license: GPLv3
-print('мяу')
-import tkinter
+try:
+    import tkinter
+except ImportError:
+    print("tkinter is not installed")
 from tkinter.filedialog import *
 from solar_vis import *
 from solar_model import *
@@ -105,12 +107,14 @@ def main():
     """Главная функция главного модуля.
     Создаёт объекты графического дизайна библиотеки tkinter: окно, холст, фрейм с кнопками, кнопки.
     """
+    
     global physical_time
     global displayed_time
     global time_step
     global time_speed
     global space
     global start_button
+    
 
     print('Modelling started!')
     physical_time = 0
