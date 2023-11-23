@@ -41,6 +41,7 @@ def execution():
         update_object_position(space, body)
     physical_time += time_step.get()
     displayed_time.set("%.1f" % physical_time + " seconds gone")
+    write_space_objects_data_to_file_stats('stats.txt', space_objects, physical_time)
 
     if perform_execution:
         space.after(101 - int(time_speed.get()), execution)
@@ -82,6 +83,7 @@ def open_file_dialog():
         space.delete(obj.image)  # удаление старых изображений планет
     in_filename = askopenfilename(filetypes=(("Text file", ".txt"),))
     space_objects = read_space_objects_data_from_file(in_filename)
+    clear_file_stats('stats.txt')
     max_distance = max([max(abs(obj.x), abs(obj.y)) for obj in space_objects])
     calculate_scale_factor(max_distance)
 
@@ -100,8 +102,13 @@ def save_file_dialog():
     Считанные объекты сохраняются в глобальный список space_objects
     """
     out_filename = asksaveasfilename(filetypes=(("Text file", ".txt"),))
+    stats = 'stats.txt'
     write_space_objects_data_to_file(out_filename, space_objects)
-
+def chart():
+    "Открывает окно для построения графика. Строит по сохраненной статистике"
+    stats = 'stats.txt'
+    build_graph(stats)
+    pass
 
 def main():
     """Главная функция главного модуля.
@@ -120,6 +127,8 @@ def main():
     physical_time = 0
 
     root = tkinter.Tk()
+    window_size = str(window_width) + "x" + str(window_height + 60)
+    root.geometry(window_size)
     # космическое пространство отображается на холсте типа Canvas
     space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
     space.pack(side=tkinter.TOP)
@@ -143,6 +152,8 @@ def main():
     load_file_button.pack(side=tkinter.LEFT)
     save_file_button = tkinter.Button(frame, text="Save to file...", command=save_file_dialog)
     save_file_button.pack(side=tkinter.LEFT)
+    chart_button = tkinter.Button(frame, text="Построить график", command=chart)
+    chart_button.pack(side=tkinter.LEFT)
 
     displayed_time = tkinter.StringVar()
     displayed_time.set(str(physical_time) + " seconds gone")
